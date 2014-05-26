@@ -5,6 +5,7 @@ using System.Security;
 using System.Text;
 using System.Collections.Generic;
 using Kraken.Core;
+using Kraken.Core.Extensions;
 
 namespace ClockWatcher
 {
@@ -16,7 +17,7 @@ namespace ClockWatcher
             dump.Headers.Add("Time");
             dump.Headers.Add("Message");
             dump.Data.Add(entry.TimeGenerated.ToString("dd-MMM-yyyy HH:mm"));
-            dump.Data.Add(entry.Message);
+            dump.Data.Add(entry.Message.Substring(0, entry.Message.IndexOf(".")));
             return dump;
         }
 
@@ -34,11 +35,14 @@ namespace ClockWatcher
                             where lockUnlockEVentTypes.Contains(logEntry.InstanceId)
                             select logEntry
                         )
-                        .OrderByDescending(e => e.TimeGenerated)
+                        .OrderBy(e => e.TimeGenerated)
                         .ToList();
 
             var dumper = new ObjectDumper<EventLogEntry>(GetDump);
             Console.WriteLine(dumper.Dump(logEntries));
+
+            Console.WriteLine("Press any key...");
+            Console.ReadKey();
         }
     }
 }
