@@ -26,8 +26,9 @@ namespace ClockWatcher
 
             string logType = "security";
             var lockUnlockEVentTypes = new long[] { 4800, 4801 };
-            var machine = "."; // local machine
-            
+            const string machine = "."; // local machine
+
+            Log("Opening Event Log...");
             var securityLog = new EventLog(logType, machine);
 
             var logEntries = (
@@ -36,13 +37,26 @@ namespace ClockWatcher
                             select logEntry
                         )
                         .OrderBy(e => e.TimeGenerated)
+                        .Take(100)
                         .ToList();
 
-            var dumper = new ObjectDumper<EventLogEntry>(GetDump);
-            Console.WriteLine(dumper.Dump(logEntries));
+            if (logEntries.Count == 0)
+            {
+                Log("No interesting entries found");
+            }
+            else
+            {
+                var dumper = new ObjectDumper<EventLogEntry>(GetDump);
+                Log(dumper.Dump(logEntries));    
+            }
 
-            Console.WriteLine("Press any key...");
+            Log("Press any key...");
             Console.ReadKey();
+        }
+
+        private static void Log(string output)
+        {
+            Console.WriteLine(output);
         }
     }
 }
