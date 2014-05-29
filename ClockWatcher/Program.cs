@@ -36,8 +36,9 @@ namespace ClockWatcher
                             where lockUnlockEVentTypes.Contains(logEntry.InstanceId)
                             select logEntry
                         )
-                        .OrderBy(e => e.TimeGenerated)
+                        .OrderByDescending(e => e.TimeGenerated)
                         .Take(100)
+                        .OrderBy(e => e.TimeGenerated)              // want the most recent at the bottom
                         .ToList();
 
             if (logEntries.Count == 0)
