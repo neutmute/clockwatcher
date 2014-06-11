@@ -72,7 +72,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="AppActions\AllEventsDump.cs" />
+    <Compile Include="AppActions\AppAction.cs" />
+    <Compile Include="Console\AppOptions.cs" />
+    <Compile Include="AppActions\InterestingEventDump.cs" />
+    <Compile Include="Console\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
