@@ -7,9 +7,15 @@ namespace ClockWatcher
     {
         protected override List<EventLogEntry> GetEntries()
         {
-            var lockUnlockEventTypes = new long[] { 4800, 4801 };
+            var interestingSecurityEventTypes = new long[]
+            {
+                4800   // lock
+                , 4801 // unlock
+                , 4778 // A session was reconnected to a Window Station (for when connected via RDP or had RDP'd from home and then taking over console again)
+                , 4779 // A session was disconnected from a Window Station. (RDP disconnected)
+            };
 
-            var logEntries = GetEventLogEntries("security", 100, lockUnlockEventTypes);
+            var logEntries = GetEventLogEntries("security", 100, interestingSecurityEventTypes);
             logEntries.AddRange(GetEventLogEntries("system", 100, EventInstanceIdShutdown)); 
             
             return logEntries;
