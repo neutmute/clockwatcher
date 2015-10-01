@@ -39,8 +39,8 @@ namespace ClockWatcher
                 
             appAction.Run();
            
-            Log("Press any key...");
-            Console.ReadKey();
+            Log("Press enter to exit...");
+            Console.ReadLine();
         }
 
         private static void Log(string output)
